@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.databindingwithlivedata.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+        <!-- One way data binding is used here in which data flow is from live data to view.
+        i.e live data -> view
+
+        In this text view ,text is bound to viewModel's currentRandomFruitName,
+        which is live data and live data is observable .Whenever this live data changes,
+        its value is applied to the text property of text view.So whenever fruit name changes,
+        its text will also be changed.
+        -->
+        <TextView
+            android:id="@+id/txtFruit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            android:text="@{viewModel.currentRandomFruitName}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Some Random fruit" />
+
+        <!-- Handling click event of button using data binding.
+        When this button is clicked,viewModel's onChangeRandomFruitClick() function is called-->
+
+        <Button
+            android:id="@+id/btnChangeFruit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="@{()->viewModel.onChangeRandomFruitClick()}"
+            android:text="Change Fruit"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtFruit" />
+        <!-- Two way data binding
+            Here the flow is from view to live data and vice versa.
+            i.e when user type something inside edit text,the underlying text property which is live data
+            will be changed.(View -> Live data)
+
+            Also when editTextContent changes inside code (i.e live data) ,changes will be reflected
+            in the edit text.(Live data ->view)
+
+        -->
+
+        <EditText
+            android:id="@+id/edtFruit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:ems="10"
+            android:hint="Enter a fruit name"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.editTextContent}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnChangeFruit" />
+        <!--On clicking button ,EditText content will be displayed inside text view below it
+        but not taking the data directly from edit text but from editTextContent property
+        of viewModel which is live data-->
+        <Button
+            android:id="@+id/displayEditTextContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="@{()->viewModel.onDisplayEditTextContentClick()}"
+            android:text="Display EditText Content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtFruit" />
+
+        <TextView
+            android:id="@+id/txtContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.displayedEditTextContent}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/displayEditTextContent"
+            tools:text="Content of Edit Text" />
+
+        <Button
+            android:id="@+id/btnRandomFruit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:onClick="@{()->viewModel.onSelectRandomEditTextFruit()}"
+            android:text="Select random fruit for edit text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtContent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
